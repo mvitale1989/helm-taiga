@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "taiga.fullname" . }}
+  labels:
+{{ include "taiga.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  serviceName: {{ template "taiga.fullname" . }}-headless
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+{{ include "taiga.labels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+{{ include "taiga.labels" . | indent 8 }}
+    spec:
+      initContainers:
+      - name: wait-for-db
+        image: "{{ .Values.image.initRepository }}:{{ .Values.image.initTag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - sh
+        - -c
+        - |
+          while ! nc -z -w2 {{ template "taiga.fullname" . }}-postgresql {{ .Values.postgresql.service.port }}; do
+            echo -n .
+            sleep 3
+          done
+          echo "PostgreSQL ready"
+      - name: init-db
+        image: {{ include "taiga.image" . | quote }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: TAIGA_DB_CHECK_ONLY
+          value: "True"
+{{ include "taiga.env" . | indent 8 }}
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ include "taiga.image" . | quote }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+        env:
+        - name: TAIGA_SKIP_DB_CHECK
+          value: "True"
+{{ include "taiga.env" . | indent 8 }}
+    {{- if .Values.persistence.enabled }}
+        volumeMount:
+        - name: taiga-data
+          mountPath: /usr/src/taiga-back/media
+    {{- end }}
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.persistence.enabled }}
+      volumes:
+      - name: taiga-data
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistence.existingClaim | default ( include "taiga.fullname" . ) }}
+    {{- end }}

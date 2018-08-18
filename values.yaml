@@ -1,0 +1,132 @@
+### Default values for taiga.
+
+image:
+  repository: mvitale1989/docker-taiga
+  tag: "20180818"
+  initRepository: alpine
+  initTag: 3.7
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    #kubernetes.io/ingress.class: nginx
+    #kubernetes.io/tls-acme: "true"
+  ### Path multiplexing is currently not supported
+  ###
+  hosts:
+  - chart-example.local
+  tls: []
+  #- secretName: chart-example-tls
+  #  hosts:
+  #  - chart-example.local
+
+resources: {}
+  #limits:
+  # cpu: 100m
+  # memory: 128Mi
+  #requests:
+  # cpu: 100m
+  # memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+extraLabels: {}
+
+
+### Parameters for the taiga service
+###
+taiga:
+
+  ### The name on which the taiga backend API server will be accessible. In this chart, it's the same name you will use to
+  ### access the frontend. Important considerations:
+  ### - If you're using a nonstandard port, you must also specify it (e.g. `hostname: "taiga.mydomain.com:8080"`).
+  ### - If you want the scheme to be https, include this hostname also in the `ingress.tls` value.
+  ### - You can additionally use any other name or way to access the frontend socket in your browser; however, it's a strict
+  ###   requirement that all users that ALL users of this service are able to reach it through this hostname too.
+  ###
+  hostname: taiga.default.svc.cluster.local
+
+  ### Database access parameters
+  ### If deploying postgres, the dbHost should be `${release_name}-postgresql`
+  ###
+  dbHost: taiga-postgresql
+  dbName: taiga
+  dbUser: taiga
+  dbPassword: "changeme"
+
+  ### If you enable email, also uncomment and configure the parameters below
+  ###
+  emailEnabled: false
+  #emailFrom: "taiga@mycompany.net"
+  #emailUseTls: true
+  #emailSmtpHost: "smtp.example.com"
+  #emailSmtpPort: 587
+  #emailSmtpUser: "user@example.com"
+  #emailSmtpPassword: ""
+  
+  ### Configure taiga-back's secret key
+  ### If omitted, a random alphanumeric string of 10 characters will be generated
+  ###
+  #secretKey: "changeme"
+
+
+### Persistent volume and database configuration for the taiga service
+###
+persistence:
+
+  ### Whether or not you want this chart to provision the database for you
+  ### Database parameters must be specified under the `postgres` value
+  ###
+  deployPostgres: true
+
+  ### If you want this chart to provision a PVC for you, enable and configure this
+  ###
+  enabled: false
+  #size: 8Gi
+
+  ### StorageClass for the provisioned PVC
+  ###
+  #storageClass: ""
+
+  ### If you prefer using a PVC defined outside of this chart instead, uncomment this
+  ### Requires `persistence.enabled: true`
+  ###
+  #existingClaim: ""
+
+
+### Any stable/postgres values can be defined here
+###
+postgresql:
+
+  ### Create a postgres user, password and database
+  ###
+  postgresUser: "taiga"
+  postgresPassword: "changeme"
+  postgresDatabase: "taiga"
+
+  persistence:
+    enabled: false
+    #size: 8Gi
+
+    ### If you prefer using a PVC defined outside of this chart instead, uncomment this
+    ### Requires `persistence.enabled: true`
+    ###
+    #existingClaim: ""
+  
+    ### database data Persistent Volume Storage Class
+    ### If defined, storageClassName: <storageClass>
+    ### If set to "-", storageClassName: "", which disables dynamic provisioning
+    ### If undefined (the default) or set to null, no storageClassName spec is
+    ###   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ###   GKE, AWS & OpenStack)
+    ###
+    #storageClass: "-"
