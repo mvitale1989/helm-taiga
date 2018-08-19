@@ -57,7 +57,7 @@ spec:
           value: "True"
 {{ include "taiga.env" . | indent 8 }}
     {{- if .Values.persistence.enabled }}
-        volumeMount:
+        volumeMounts:
         - name: taiga-data
           mountPath: /usr/src/taiga-back/media
     {{- end }}

@@ -16,8 +16,6 @@ ingress:
   annotations: {}
     #kubernetes.io/ingress.class: nginx
     #kubernetes.io/tls-acme: "true"
-  ### Path multiplexing is currently not supported
-  ###
   hosts:
   - chart-example.local
   tls: []
@@ -47,13 +45,15 @@ extraLabels: {}
 taiga:
 
   ### The name on which the taiga backend API server will be accessible. In this chart, it's the same name you will use to
-  ### access the frontend. Important considerations:
-  ### - If you're using a nonstandard port, you must also specify it (e.g. `hostname: "taiga.mydomain.com:8080"`).
-  ### - If you want the scheme to be https, include this hostname also in the `ingress.tls` value.
-  ### - You can additionally use any other name or way to access the frontend socket in your browser; however, it's a strict
-  ###   requirement that all users that ALL users of this service are able to reach it through this hostname too.
+  ### access the frontend.  Notes:
+  ### - Must be formatted exactly as you would type the hostname part of the URL in a browser, including the port number if needed.
+  ### - Must be reachable by ALL clients using the service. See F.A.Q. in the readme, for more informations.
   ###
-  hostname: taiga.default.svc.cluster.local
+  apiserver: localhost:8080
+
+  ### Whether taiga is behind a TLS termination; if using a TLS ingress, set this to true.
+  ###
+  behindTlsProxy: false
 
   ### Database access parameters
   ### If deploying postgres, the dbHost should be `${release_name}-postgresql`
@@ -95,7 +95,7 @@ persistence:
   #annotations:
   #  "helm.sh/resource-policy": keep
 
-  ### StorageClass for the provisioned PVC
+  ### StorageClass for the provisioned PVC.
   ###
   #storageClass: ""
 
@@ -121,16 +121,11 @@ postgresql:
     #annotations:
     #  "helm.sh/resource-policy": keep
 
+    ### StorageClass for the provisioned PVC.
+    ###
+    #storageClass: ""
+
     ### If you prefer using a PVC defined outside of this chart instead, uncomment this
-    ### Requires `persistence.enabled: true`
+    ### Requires `postgresql.persistence.enabled: true`
     ###
     #existingClaim: ""
-
-    ### database data Persistent Volume Storage Class
-    ### If defined, storageClassName: <storageClass>
-    ### If set to "-", storageClassName: "", which disables dynamic provisioning
-    ### If undefined (the default) or set to null, no storageClassName spec is
-    ###   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ###   GKE, AWS & OpenStack)
-    ###
-    #storageClass: "-"

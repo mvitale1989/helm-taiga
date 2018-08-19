@@ -38,7 +38,7 @@ chart: {{ include "taiga.chart" . }}
 {{/* Environment variables for configuring the containers */}}
 {{- define "taiga.env" -}}
 - name: TAIGA_HOSTNAME
-  value: {{ required "taiga.hostname must be set" .Values.taiga.hostname }}
+  value: {{ required "taiga.apiserver must be set" .Values.taiga.apiserver }}
 - name: TAIGA_SECRET_KEY
   valueFrom:
     secretKeyRef:
@@ -49,7 +49,7 @@ chart: {{ include "taiga.chart" . }}
 - name: TAIGA_SSL
   value: "false"
 - name: TAIGA_SSL_BY_REVERSE_PROXY
-  value: {{ gt ( len .Values.ingress.tls ) 0 | ternary "True" "False" | quote }} #NB: case sensitive
+  value: {{ .Values.taiga.behindTlsProxy | ternary "True" "False" | quote }} #NB: case sensitive
 - name: TAIGA_DB_HOST
   value: {{ required "taiga.dbHost must be set" .Values.taiga.dbHost }}
 - name: TAIGA_DB_NAME
