@@ -1,5 +1,16 @@
 apiVersion: v1
-appVersion: "1.0"
-description: Helm chart for taiga.io, based on benhutchins/docker-taiga
-name: taiga
-version: 0.1.0
+name: helm-taiga
+description: Helm chart for the taiga project management platform, based on benhutchins/docker-taiga
+version: 0.2.0
+appVersion: "3.3.0-3-gd0ec0f9"
+kubeVersion: ">=1.11.0"
+keywords:
+- taiga
+- scrum
+- kanban
+home: https://github.com/mvitale1989/helm-taiga
+sources:
+- https://github.com/mvitale1989/helm-taiga
+maintainers:
+- name: mvitale1989
+  email: mvitale1989@hotmail.com
