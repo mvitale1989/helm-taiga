@@ -33,7 +33,7 @@ Check out the [official taiga website](https://taiga.io/) for informations on ho
 
 - Kubernetes 1.10+
 - Optionally, you can use your own pre-provisioned instance of PostgreSQL, for data storage. This chart provision a dedicated PostgreSQL database for you, by default.
-- Optionally, you configure the chart for persistence of both the taiga data and PostgreSQL provisioning, if using a dynamic PV provisioner in your cluster.
+- Optionally, you can rely on a dynamic PV provisioner, for the persistence of both the taiga and PostgreSQL data.
 
 
 ## Installing, uninstalling and configuring the Chart
@@ -93,26 +93,30 @@ Parameter | Description | Default
 `taiga.emailSmtpPassword` | SMTP password  | `""`
 `taiga.secretKey` | taiga backend's secret key | `""`, which defaults to a 10 character random string
 `persistence.deployPostgres` | Deploy a PostgreSQL instance, along with taiga; configure with the `postgresql` parameter. **IMPORTANT**: see note on the `taiga.dbHost` parameter. | `true`
-`persistence.enabled` | Create a PVC for persistent storage of the taiga media directory. | `false`
+`persistence.enabled` | Create a PVC for persistent storage of the taiga media directory. | `true`
 `persistence.size` | Size of the volume requested by the PVC. | `8Gi`
+`persistence.accessMode` | Access mode for the volume requested by the PVC. | `ReadWriteOnce`
 `persistence.annotations` | Annotations to use in the PVC of the taiga pod. | `{}`
 `persistence.storageClass` | Storage class of the PVC of the taiga pod. Use empty string for synamic provisioning. | `""`
 `persistence.existingClaim` | Name of the pre-provisioned PVC to use, for taiga persistence; setting this overrides the creation of the PVC. `persistence.enabled` must be true. | `""`
 `postgresql` | Configuration parameters for the provisioned PostgreSQL instance, if enabled. See the [PostgreSQL chart](https://github.com/helm/charts/tree/master/stable/postgresql) for details. | See parameters below
-`postgresql.postgresUser` | Username to create in the provisioned PostgreSQL instance | `"taiga"`
-`postgresql.postgresPassword` | Password to configure for the provisioned PostgreSQL user | `"changeme"`
-`postgresql.postgresDatabase` | Database to create in the provisioned PostgreSQL instance | `"taiga"`
-`postgresql.persistence.enabled` | Create the PVC for the PostgreSQL instance. Configure additional persistence parameters, if this is enabled. | `false`
+`postgresql.postgresUser` | Username to create in the provisioned PostgreSQL instance. | `"taiga"`
+`postgresql.postgresPassword` | Password to configure for the provisioned PostgreSQL user. | `"changeme"`
+`postgresql.postgresDatabase` | Database to create in the provisioned PostgreSQL instance. | `"taiga"`
+`postgresql.persistence.enabled` | Create the PVC for the PostgreSQL instance. | `true`
+`postgresql.persistence.size` | Size of the PostgreSQL data volume requested by the PVC. | `2Gi`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`, or in alternative, persist them inside of a YAML file, which you can then reference during installs/upgrades by using the `-f ./values.yaml` flag.
 
 ### Persistence
 
-By default, this chart deploys both a taiga API server and a PostgreSQL database instance, but without configuring persistence for them.
+By default, this chart deploys both a taiga API server and a PostgreSQL database instance, generating the following PVCs:
+* An `8Gi` volume dedicated to the taiga media directory
+* A `2Gi` volume for PostgreSQL storage
 
-This means that data is lost when either of the two Pods get restarted for any reason. You can, however, choose to enable the provisioning of PersistentVolumeClaims for them, by setting the parameters `persistence.enabled: true` and `postgresql.persistence.enabled: true` (note that the latter is valid only if you also configure the provisioning of PostgreSQL). This will create the PVC objects, which your cluster is expected to then satisfy in some way.
+You can tune the parameters associated with these volumes, or also choose to rely on already existing volumes instead, by using the `persistence` and `postgresql.persistence` parameters.
 
-By default, no storage class is set for the PVCs, so the default dynamic volume provisioner is expected to create the corresponding PV, but you can optionally declare a storageClass name to use, if you prefer.
+By default, no storage class is set for these PVCs, so the default dynamic volume provisioner is expected to create the corresponding PV. But you can optionally declare a storageClass name to use, if you prefer.
 
 #### Using an External Database
 

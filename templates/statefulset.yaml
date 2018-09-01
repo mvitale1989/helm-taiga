@@ -56,11 +56,9 @@ spec:
         - name: TAIGA_SKIP_DB_CHECK
           value: "True"
 {{ include "taiga.env" . | indent 8 }}
-    {{- if .Values.persistence.enabled }}
         volumeMounts:
         - name: taiga-data
           mountPath: /usr/src/taiga-back/media
-    {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
     {{- with .Values.nodeSelector }}
@@ -75,9 +73,11 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-    {{- if .Values.persistence.enabled }}
       volumes:
       - name: taiga-data
+    {{- if .Values.persistence.enabled }}
         persistentVolumeClaim:
           claimName: {{ .Values.persistence.existingClaim | default ( include "taiga.fullname" . ) }}
+    {{- else }}
+        emptyDir: {}
     {{- end }}

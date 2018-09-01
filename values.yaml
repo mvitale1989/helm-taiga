@@ -14,22 +14,22 @@ service:
 ingress:
   enabled: false
   annotations: {}
-    #kubernetes.io/ingress.class: nginx
-    #kubernetes.io/tls-acme: "true"
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
   hosts:
   - chart-example.local
   tls: []
-  #- secretName: chart-example-tls
-  #  hosts:
-  #  - chart-example.local
+  # - secretName: chart-example-tls
+  #   hosts:
+  #   - chart-example.local
 
 resources: {}
-  #limits:
-  # cpu: 100m
-  # memory: 128Mi
-  #requests:
-  # cpu: 100m
-  # memory: 128Mi
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
 
 nodeSelector: {}
 
@@ -66,17 +66,17 @@ taiga:
   ### If you enable email, also uncomment and configure the parameters below
   ###
   emailEnabled: false
-  #emailFrom: "taiga@mycompany.net"
-  #emailUseTls: true
-  #emailSmtpHost: "smtp.example.com"
-  #emailSmtpPort: 587
-  #emailSmtpUser: "user@example.com"
-  #emailSmtpPassword: ""
+  # emailFrom: "taiga@mycompany.net"
+  # emailUseTls: true
+  # emailSmtpHost: "smtp.example.com"
+  # emailSmtpPort: 587
+  # emailSmtpUser: "user@example.com"
+  # emailSmtpPassword: ""
 
   ### Configure taiga-back's secret key
   ### If omitted, a random alphanumeric string of 10 characters will be generated
   ###
-  #secretKey: "changeme"
+  # secretKey: "changeme"
 
 
 ### Persistent volume and database configuration for the taiga service
@@ -88,21 +88,22 @@ persistence:
   ###
   deployPostgres: true
 
-  ### If you want this chart to provision a PVC for you, enable and configure this
+  ### If you don't want persistence for the taiga media storage, disable this
   ###
-  enabled: false
-  #size: 8Gi
-  #annotations:
-  #  "helm.sh/resource-policy": keep
+  enabled: true
+  size: 8Gi
+  accessMode: ReadWriteOnce
+  # annotations:
+  #   "helm.sh/resource-policy": keep
 
   ### StorageClass for the provisioned PVC.
   ###
-  #storageClass: ""
+  # storageClass: ""
 
   ### If you prefer using a PVC defined outside of this chart instead, uncomment this
   ### Requires `persistence.enabled: true`
   ###
-  #existingClaim: ""
+  # existingClaim: ""
 
 
 ### Any stable/postgres values can be defined here
@@ -116,16 +117,16 @@ postgresql:
   postgresDatabase: "taiga"
 
   persistence:
-    enabled: false
-    #size: 8Gi
-    #annotations:
-    #  "helm.sh/resource-policy": keep
+    enabled: true
+    size: 2Gi
+    # annotations:
+    #   "helm.sh/resource-policy": keep
 
     ### StorageClass for the provisioned PVC.
     ###
-    #storageClass: ""
+    # storageClass: ""
 
     ### If you prefer using a PVC defined outside of this chart instead, uncomment this
     ### Requires `postgresql.persistence.enabled: true`
     ###
-    #existingClaim: ""
+    # existingClaim: ""
