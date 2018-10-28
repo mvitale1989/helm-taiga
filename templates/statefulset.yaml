@@ -21,31 +21,58 @@ spec:
         image: {{ include "taiga.image" . | quote }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
-        - name: TAIGA_DB_CHECK_ONLY
-          value: "True"
         - name: TAIGA_SLEEP
           value: "60"
-{{ include "taiga.env" . | indent 8 }}
+        - name: TAIGA_DB_CHECK_ONLY
+          value: "True"
+        envFrom:
+{{ include "taiga.envfrom" . | indent 8 }}
       containers:
-      - name: {{ .Chart.Name }}
+      - name: {{ .Chart.Name }}-front
         image: {{ include "taiga.image" . | quote }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
         - name: http
           containerPort: 80
           protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
         env:
+        - name: TAIGA_COMPONENT
+          value: "front"
         - name: TAIGA_SKIP_DB_CHECK
           value: "True"
-{{ include "taiga.env" . | indent 8 }}
+        envFrom:
+{{ include "taiga.envfrom" . | indent 8 }}
+        volumeMounts:
+        - name: taiga-data
+          mountPath: /usr/src/taiga-back/media
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      - name: {{ .Chart.Name }}-back
+        image: {{ include "taiga.image" . | quote }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /api/v1/projects
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /api/v1/projects
+            port: http
+        env:
+        - name: TAIGA_COMPONENT
+          value: "back"
+        - name: TAIGA_SKIP_DB_CHECK
+          value: "True"
+        envFrom:
+{{ include "taiga.envfrom" . | indent 8 }}
         volumeMounts:
         - name: taiga-data
           mountPath: /usr/src/taiga-back/media

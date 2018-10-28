@@ -36,13 +36,11 @@ chart: {{ include "taiga.chart" . }}
 {{- end -}}
 
 {{/* Environment variables for configuring the containers */}}
-{{- define "taiga.env" -}}
-- envFrom:
-  secretRef:
+{{- define "taiga.envfrom" -}}
+- secretRef:
     name: {{ include "taiga.fullname" . }}
     optional: false
-- envFrom:
-  configMapRef:
+- configMapRef:
     name: {{ include "taiga.fullname" . }}
     optional: false
 {{- end -}}
