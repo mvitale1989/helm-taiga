@@ -17,24 +17,14 @@ spec:
 {{ include "taiga.labels" . | indent 8 }}
     spec:
       initContainers:
-      - name: wait-for-db
-        image: "{{ .Values.image.initRepository }}:{{ .Values.image.initTag }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command:
-        - sh
-        - -c
-        - |
-          while ! nc -z -w2 {{ template "taiga.fullname" . }}-postgresql {{ .Values.postgresql.service.port }}; do
-            echo -n .
-            sleep 3
-          done
-          echo "PostgreSQL ready"
       - name: init-db
         image: {{ include "taiga.image" . | quote }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         env:
         - name: TAIGA_DB_CHECK_ONLY
           value: "True"
+        - name: TAIGA_SLEEP
+          value: "60"
 {{ include "taiga.env" . | indent 8 }}
       containers:
       - name: {{ .Chart.Name }}

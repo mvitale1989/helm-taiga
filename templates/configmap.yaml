@@ -6,7 +6,6 @@ metadata:
 {{ include "taiga.labels" . | indent 4 }}
 data:
   TAIGA_HOSTNAME: {{ required "taiga.apiserver must be set" .Values.taiga.apiserver }}
-  TAIGA_SLEEP: "0"
   TAIGA_SSL: "false"
   TAIGA_SSL_BY_REVERSE_PROXY: {{ .Values.taiga.behindTlsProxy | ternary "True" "False" | quote }}
   TAIGA_DB_HOST: {{ required "taiga.dbHost must be set" .Values.taiga.dbHost }}
