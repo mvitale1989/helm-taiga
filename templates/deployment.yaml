@@ -60,11 +60,11 @@ spec:
         livenessProbe:
           httpGet:
             path: /api/v1/projects
-            port: http
+            port: 80
         readinessProbe:
           httpGet:
             path: /api/v1/projects
-            port: http
+            port: 80
         env:
         - name: TAIGA_COMPONENT
           value: "back"
