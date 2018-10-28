@@ -2,7 +2,7 @@
 
 image:
   repository: mvitale1989/docker-taiga
-  tag: "20180818"
+  tag: "20181028"
   initRepository: alpine
   initTag: 3.7
   pullPolicy: IfNotPresent
