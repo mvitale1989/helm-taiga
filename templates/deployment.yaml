@@ -1,12 +1,11 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: {{ template "taiga.fullname" . }}
   labels:
 {{ include "taiga.labels" . | indent 4 }}
 spec:
   replicas: 1
-  serviceName: {{ template "taiga.fullname" . }}-headless
   revisionHistoryLimit: 0
   selector:
     matchLabels:
