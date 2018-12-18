@@ -24,7 +24,7 @@ You will now be able to access your taiga instance at `http://localhost:8080`.
 
 ### Introduction
 
-This chart bootstrap a [taiga](https://taiga.io/) StatefulSet on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager. It provisions a basic taiga installation (taiga-events is not currently provisioned), which by default has no persistence, but can be configured to do so.
+This chart bootstrap a [taiga](https://taiga.io/) Deployment on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager. It provisions a basic taiga installation (taiga-events is not currently provisioned), which by default has no persistence, but can be configured to do so.
 
 Check out the [official taiga website](https://taiga.io/) for informations on how to use and configure your installation.
 
@@ -63,7 +63,7 @@ The following table lists the configurable parameters of the helm-taiga chart, a
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | Taiga image repository. | `mvitale1989/docker-taiga`
-`image.tag` | Taiga image tag. | `"20180818"`
+`image.tag` | Taiga image tag. | `"20181218-4.0.3"`
 `image.initRepository` | Init image repository. | `alpine`
 `image.initTag` | Init image tag. | `3.7`
 `image.pullPolicy` | Pull policy for both taiga and init images. | `IfNotPresent`
@@ -127,8 +127,7 @@ If needed, you can choose to use an existing PostgreSQL instance instead of prov
 
 1. **Why do i need to explicitly specify `taiga.apiserver` and `taiga.behindTlsProxy`?** The taiga frontend will need this information, to generate the URLs used for reaching the taiga backend API server (respectively for the host/port and scheme part of the URL). This chart provisions both frontend and backend under the same service, and thus behind the same host/port and scheme, but in the general case the frontend wouldn't know how to find the API server if you didn't specify it in those parameters, as they may be deployed separately.
 2. **Why do all web clients need to be able to reach what i specified in `taiga.apiserver`?** As mentioned in question 1, the frontend will use those parameters to generate the URLs pointing to the API server. This means that no matter what name you type in your browser to reach the frontend: the web client will attempt to reach the API server backend based on the `taiga.apiserver` and `taiga.behindTlsProxy` parameters. Note that despite this, you _can_ still connect to the frontend in any way you prefer (public name, `kubectl port-forward`, etc): just make sure it's also reachable through the name specified in the `taiga.apiserver` parameter.
-3. **Why implement the service using a StatefulSet, instead of Deployment?** I'm currently uncetain about the possibility of running multiple taiga-back servers in parallel; because of this, I wanted to ensure that only one istance is in execution at any moment. The `StatefulSet` object provides you with this guarantee.
-4. **Can i configure multiple instances of taiga behind the same name, but with different paths?** No, path multiplexing is currenty not supported.
+3. **Can i configure multiple instances of taiga behind the same name, but with different paths?** No, path multiplexing is currenty not supported.
 
 
 ## Full example configuration
