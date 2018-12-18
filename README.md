@@ -1,4 +1,4 @@
-# helm-taiga
+# taiga
 
 [Taiga](https://taiga.io/) is a project management platform for agile developers & designers and project managers who want a beautiful tool that makes work truly enjoyable.
 
@@ -10,8 +10,8 @@ This chart is a community effort, and is not endorsed by the taiga project devel
 Be sure to have a working [Helm](https://helm.sh) installation for your cluster first.
 
 ```console
-$ git clone https://github.com/mvitale1989/helm-taiga
-$ helm install --name taiga ./helm-taiga
+$ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+$ helm install --name taiga incubator/taiga
 ```
 
 Wait for the taiga and database pods to come up, then execute:
@@ -41,8 +41,8 @@ Check out the [official taiga website](https://taiga.io/) for informations on ho
 To install the chart with the release name `my-taiga`:
 
 ```console
-$ git clone https://github.com/mvitale1989/helm-taiga
-$ helm install --name my-taiga ./helm-taiga --set taiga.dbHost=my-taiga-postgresql
+$ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+$ helm install --name my-taiga --set taiga.dbHost=my-taiga-postgresql incubator/taiga
 ```
 
 Note that the `taiga.dbHost` parameter must be consistent with the release name, when provisioning PostgreSQL.
@@ -58,7 +58,7 @@ Refer to the [Helm](https://www.helm.sh/) project documentation for more usage n
 
 ## Configuration parameters
 
-The following table lists the configurable parameters of the helm-taiga chart, and their default values. It also includes some useful options of the deployable PostgreSQL dependency, but any configuration valid for the `stable/postgresql` chart can be used.
+The following table lists the configurable parameters of the taiga chart, and their default values. It also includes some useful options of the deployable PostgreSQL dependency, but any configuration valid for the `stable/postgresql` chart can be used.
 
 Parameter | Description | Default
 --- | --- | ---
@@ -186,7 +186,7 @@ Save the above in the `values.yaml` file, and then deploy your taiga instance on
 
 ```console
 ### Note: release name is relevant, and must be consistent with the `taiga.dbHost` parameter when provisioning the PostgreSQL database.
-$ helm install -f values.yaml -n my-taiga ./helm-taiga
+$ helm install -f values.yaml -n my-taiga incubator/taiga
 ```
 
 After everything's been initialized, you will be able to access your taiga instance at `https://taiga.mycompany.com`.
