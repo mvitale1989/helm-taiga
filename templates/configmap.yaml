@@ -19,3 +19,24 @@ data:
   TAIGA_EMAIL_PORT: {{ default 587 .Values.taiga.emailSmtpPort | quote }}
   TAIGA_EMAIL_USER: {{ required "taiga.emailSmtpUser must be set" .Values.taiga.emailSmtpUser | quote }}
 {{- end }}
+{{- if .Values.taiga.ldap.Enabled }}
+  TAIGA_ENABLE_LDAP: True
+  TAIGA_LDAP_USE_TLS: {{ .Values.taiga.ldap.use_tls | default "False" |  quote }}
+  TAIGA_LDAP_SERVER: {{ .Values.taiga.ldap.ldap_server | quote }}
+  TAIGA_LDAP_PORT: {{ .Values.taiga.ldap.use_tls | default "389" |  quote }}
+  TAIGA_LDAP_BIND_DN: {{ .Values.taiga.ldap.bind_dn | default "389" |  quote }}
+  TAIGA_LDAP_BASE_DN: {{ .Values.taiga.ldap.base_dn |  quote }}
+  TAIGA_LDAP_BIND_PASSWORD: {{ .Values.taiga.ldap.password |  quote }}
+  TAIGA_LDAP_USERNAME_ATTRIBUTE: {{ .Values.taiga.ldap.bind_dn | default "uid" |  quote }}
+  TAIGA_LDAP_EMAIL_ATTRIBUTE: {{ .Values.taiga.ldap.email_attribute | default "mail" |  quote }}
+  TAIGA_LDAP_FULL_NAME_ATTRIBUTE: {{ .Values.taiga.ldap.full_name_attribute | default "cn" |  quote }}
+  TAIGA_LDAP_FALLBACK: {{ .Values.taiga.ldap.fallback | default "normal" |  quote }}
+  LDAP_SAVE_LOGIN_PASSWORD: {{ .Values.taiga.ldap.save_password | default "False" |  quote }}
+{{- end }}
+  
+  # LDAP_AUTH_ENABLE=True
+  # LDAP_BIND_DN=<bind account dn>
+  # LDAP_BIND_PASSWORD=<bind password>
+  # LDAP_SEARCH_BASE=<base>
+  # LDAP_SERVER=ldap://<ldap_server_host_name>
+  # TAIGA_LOGIN_FORM_TYPE=ldap

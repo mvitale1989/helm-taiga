@@ -72,7 +72,18 @@ taiga:
   # emailSmtpPort: 587
   # emailSmtpUser: "user@example.com"
   # emailSmtpPassword: ""
-
+  ldap:
+    Enabled: False
+    use_tls: False
+    ldap_server: ldap://<ldap_server_host_name>
+    port: 389
+    bind_dn: "cn=something,ou=admins,ou=theouhere,ou=auth,o=ethz,c=ch"
+    base_dn: "basednhere"
+    password: "changeme"
+    username_attribute: "uid"
+    email_attribute: "mail"
+    full_name_attribute: "cn"
+    fallback: "normal"
   ### Configure taiga-back's secret key
   ### If omitted, a random alphanumeric string of 10 characters will be generated
   ###
