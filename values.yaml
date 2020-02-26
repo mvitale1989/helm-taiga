@@ -84,6 +84,8 @@ taiga:
     email_attribute: "mail"
     full_name_attribute: "cn"
     fallback: "normal"
+    save_password: False
+    filter: "(&(objectClass=posixAccount)(ou=some-ldap-group))"
   ### Configure taiga-back's secret key
   ### If omitted, a random alphanumeric string of 10 characters will be generated
   ###
