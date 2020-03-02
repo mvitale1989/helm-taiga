@@ -73,7 +73,7 @@ taiga:
   # emailSmtpUser: "user@example.com"
   # emailSmtpPassword: ""
   ldap:
-    Enabled: False
+    enabled: False
     use_tls: False
     ldap_server: ldap://<ldap_server_host_name>
     port: 389
