@@ -82,7 +82,7 @@ taiga:
     password: "changeme"
     username_attribute: "uid"
     email_attribute: "mail"
-    full_name_attribute: "cn"
+    full_name_attribute: "displayName"
     fallback: "normal"
     save_password: False
     filter: "(&(objectClass=posixAccount)(ou=some-ldap-group))"
