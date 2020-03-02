@@ -25,7 +25,7 @@ data:
   LDAP_START_TLS: {{ .Values.taiga.ldap.use_tls | default "False" |  quote }}
   LDAP_SERVER: {{ .Values.taiga.ldap.ldap_server | quote }}
   LDAP_PORT: {{ .Values.taiga.ldap.port | default 389 | quote }}
-  LDAP_BIND_DN: {{ .Values.taiga.ldap.bind_dn | default "cn=diegoarmandomaradona" |  quote }}
+  LDAP_BIND_DN: {{ .Values.taiga.ldap.bind_dn | default "" |  quote }}
   LDAP_SEARCH_BASE: {{ .Values.taiga.ldap.base_dn |  quote }}
   LDAP_BIND_PASSWORD: {{ .Values.taiga.ldap.password |  quote }}
   LDAP_USERNAME_ATTRIBUTE: {{ .Values.taiga.ldap.username_attribute | default "uid" |  quote }}
