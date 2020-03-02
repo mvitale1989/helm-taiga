@@ -30,7 +30,7 @@ data:
   LDAP_BIND_PASSWORD: {{ .Values.taiga.ldap.password |  quote }}
   LDAP_USERNAME_ATTRIBUTE: {{ .Values.taiga.ldap.username_attribute | default "uid" |  quote }}
   LDAP_EMAIL_ATTRIBUTE: {{ .Values.taiga.ldap.email_attribute | default "mail" |  quote }}
-  LDAP_FULL_NAME_ATTRIBUTE: {{ .Values.taiga.ldap.full_name_attribute | default "cn" |  quote }}
+  LDAP_FULL_NAME_ATTRIBUTE: {{ .Values.taiga.ldap.full_name_attribute | default "displayName" |  quote }}
   LDAP_FALLBACK: {{ .Values.taiga.ldap.fallback | default "normal" |  quote }}
   LDAP_SAVE_LOGIN_PASSWORD: {{ .Values.taiga.ldap.save_password | default "False" |  quote }}
   LDAP_SEARCH_FILTER_ADDITIONAL: {{ .Values.taiga.ldap.filter }}
