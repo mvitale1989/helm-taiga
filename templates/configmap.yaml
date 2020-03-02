@@ -33,5 +33,5 @@ data:
   LDAP_FULL_NAME_ATTRIBUTE: {{ .Values.taiga.ldap.full_name_attribute | default "displayName" |  quote }}
   LDAP_FALLBACK: {{ .Values.taiga.ldap.fallback | default "normal" |  quote }}
   LDAP_SAVE_LOGIN_PASSWORD: {{ .Values.taiga.ldap.save_password | default "False" |  quote }}
-  LDAP_SEARCH_FILTER_ADDITIONAL: {{ .Values.taiga.ldap.filter }}
+  LDAP_SEARCH_FILTER_ADDITIONAL: {{ .Values.taiga.ldap.filter | default "" | quote }}
 {{- end }}
