@@ -1,5 +1,5 @@
 name: helm-taiga
-version: 0.2.0
+version: 0.2.1
 appVersion: "3.3.0-3-gd0ec0f9"
 description: Helm chart for the taiga project management platform
 keywords:
