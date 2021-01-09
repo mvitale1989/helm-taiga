@@ -7,11 +7,12 @@ This chart is a community effort, and is not endorsed by the taiga project devel
 
 ### TL;DR;
 
-Be sure to have a working [Helm](https://helm.sh) installation for your cluster first.
+Be sure to have a working [Helm](https://helm.sh) installation with cluster connectivity first.
 
 ```console
 $ git clone https://github.com/mvitale1989/helm-taiga
-$ helm install --name taiga ./helm-taiga
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+$ helm install taiga ./helm-taiga --dependency-update --set persistence.enabled=false --set postgresql.persistence.enabled=false
 ```
 
 Wait for the taiga and database pods to come up, then execute:
@@ -32,6 +33,7 @@ Check out the [official taiga website](https://taiga.io/) for informations on ho
 ## Prerequisites
 
 - Kubernetes 1.10+
+- Helm 3+
 - Optionally, you can use your own pre-provisioned instance of PostgreSQL, for data storage. This chart provision a dedicated PostgreSQL database for you, by default.
 - Optionally, you can rely on a dynamic PV provisioner, for the persistence of both the taiga and PostgreSQL data.
 
@@ -42,7 +44,8 @@ To install the chart with the release name `my-taiga`:
 
 ```console
 $ git clone https://github.com/mvitale1989/helm-taiga
-$ helm install --name my-taiga ./helm-taiga --set taiga.dbHost=my-taiga-postgresql
+$ repo add bitnami https://charts.bitnami.com/bitnami
+$ helm install my-taiga ./helm-taiga --dependency-update --set taiga.dbHost=my-taiga-postgresql
 ```
 
 Note that the `taiga.dbHost` parameter must be consistent with the release name, when provisioning PostgreSQL.
@@ -50,7 +53,7 @@ Note that the `taiga.dbHost` parameter must be consistent with the release name,
 To uninstall/delete the `my-taiga` release:
 
 ```console
-$ helm delete my-taiga
+$ helm uninstall my-taiga
 ```
 
 Refer to the [Helm](https://www.helm.sh/) project documentation for more usage notes.
@@ -186,7 +189,7 @@ Save the above in the `values.yaml` file, and then deploy your taiga instance on
 
 ```console
 ### Note: release name is relevant, and must be consistent with the `taiga.dbHost` parameter when provisioning the PostgreSQL database.
-$ helm install -f values.yaml -n my-taiga ./helm-taiga
+$ helm install my-taiga ./helm-taiga --dependency-update -f values.yaml
 ```
 
 After everything's been initialized, you will be able to access your taiga instance at `https://taiga.mycompany.com`.
