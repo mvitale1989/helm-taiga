@@ -2,7 +2,7 @@
 
 image:
   repository: mvitale1989/docker-taiga
-  tag: "20181218-4.0.3"
+  tag: "20191031-4.2.14"
   initRepository: alpine
   initTag: 3.7
   pullPolicy: IfNotPresent
@@ -125,9 +125,9 @@ postgresql:
 
   ### Create a postgres user, password and database
   ###
-  postgresUser: "taiga"
-  postgresPassword: "changeme"
-  postgresDatabase: "taiga"
+  postgresqlUsername: "taiga"
+  postgresqlPassword: "changeme"
+  postgresqlDatabase: "taiga"
 
   persistence:
     enabled: true

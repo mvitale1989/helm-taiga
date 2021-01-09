@@ -58,7 +58,7 @@ Refer to the [Helm](https://www.helm.sh/) project documentation for more usage n
 
 ## Configuration parameters
 
-The following table lists the configurable parameters of the helm-taiga chart, and their default values. It also includes some useful options of the deployable PostgreSQL dependency, but any configuration valid for the `stable/postgresql` chart can be used.
+The following table lists the configurable parameters of the helm-taiga chart, and their default values. It also includes some useful options of the deployable PostgreSQL dependency, but any configuration valid for the `bitnami/postgresql` chart can be used.
 
 Parameter | Description | Default
 --- | --- | ---
@@ -99,10 +99,10 @@ Parameter | Description | Default
 `persistence.annotations` | Annotations to use in the PVC of the taiga pod. | `{}`
 `persistence.storageClass` | Storage class of the PVC of the taiga pod. Use empty string for synamic provisioning. | `""`
 `persistence.existingClaim` | Name of the pre-provisioned PVC to use, for taiga persistence; setting this overrides the creation of the PVC. `persistence.enabled` must be true. | `""`
-`postgresql` | Configuration parameters for the provisioned PostgreSQL instance, if enabled. See the [PostgreSQL chart](https://github.com/helm/charts/tree/master/stable/postgresql) for details. | See parameters below
-`postgresql.postgresUser` | Username to create in the provisioned PostgreSQL instance. | `"taiga"`
-`postgresql.postgresPassword` | Password to configure for the provisioned PostgreSQL user. | `"changeme"`
-`postgresql.postgresDatabase` | Database to create in the provisioned PostgreSQL instance. | `"taiga"`
+`postgresql` | Configuration parameters for the provisioned PostgreSQL instance, if enabled. See the [Bitnami PostgreSQL chart](https://github.com/bitnami/charts/tree/master/bitnami/postgresql/) for details. | See parameters below
+`postgresql.postgresqlUsername` | Username to create in the provisioned PostgreSQL instance. | `"taiga"`
+`postgresql.postgresqlPassword` | Password to configure for the provisioned PostgreSQL user. | `"changeme"`
+`postgresql.postgresqlDatabase` | Database to create in the provisioned PostgreSQL instance. | `"taiga"`
 `postgresql.persistence.enabled` | Create the PVC for the PostgreSQL instance. | `true`
 `postgresql.persistence.size` | Size of the PostgreSQL data volume requested by the PVC. | `2Gi`
 
@@ -172,7 +172,7 @@ persistence:
     "helm.sh/resource-policy": keep
 
 postgresql:
-  postgresPassword: verySecureDatabasePassword
+  postgresqlPassword: verySecureDatabasePassword
   persistence:
     enabled: true
     size: 8Gi
