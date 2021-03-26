@@ -56,9 +56,9 @@ taiga:
   behindTlsProxy: false
 
   ### Database access parameters
-  ### If deploying postgres, the dbHost should be `${release_name}-postgresql`
+  ### You only need to specify `dbHost` if you don't use this chart's embedded postgresql
   ###
-  dbHost: taiga-postgresql
+  dbHost: ""
   dbName: taiga
   dbUser: taiga
   dbPassword: "changeme"

@@ -44,3 +44,8 @@ chart: {{ include "taiga.chart" . }}
     name: {{ include "taiga.fullname" . }}
     optional: false
 {{- end -}}
+
+{{/* Default taiga.dbHost value, pointing to this chart's embedded postgresql's service */}}
+{{- define "taiga.defaultDbHost" -}}
+{{ include "taiga.fullname" . | printf "%s-postgresql-headless" }}
+{{- end -}}

@@ -45,10 +45,8 @@ To install the chart with the release name `my-taiga`:
 ```console
 $ git clone https://github.com/mvitale1989/helm-taiga
 $ repo add bitnami https://charts.bitnami.com/bitnami
-$ helm install my-taiga ./helm-taiga --dependency-update --set taiga.dbHost=my-taiga-postgresql
+$ helm install my-taiga ./helm-taiga --dependency-update
 ```
-
-Note that the `taiga.dbHost` parameter must be consistent with the release name, when provisioning PostgreSQL.
 
 To uninstall/delete the `my-taiga` release:
 
@@ -83,7 +81,7 @@ Parameter | Description | Default
 `extraLabels` | Extra labels for all objects of a release | `{}`
 `taiga.apiserver` | The name on which the taiga backend server will be accessible to *all* clients. See F.A.Q. for more informations | `localhost:8080`
 `taiga.behindTlsProxy` | Whether taiga is behind a TLS termination; if using a TLS ingress, set this to true | `false`
-`taiga.dbHost` | PostgreSQL database host to use. **IMPORTANT**: set to `${release_name}-postgresql` if provisioning PostgreSQL | `taiga-postgresql`
+`taiga.dbHost` | PostgreSQL database host to use. You only need to specify this if you're not using the embedded postgresql subchart. | `""`, which points to the embedded postgresql subchart
 `taiga.dbName` | Name of PostgreSQL database to use | `taiga`
 `taiga.dbUser` | Username to use for PostgreSQL authentication | `taiga`
 `taiga.dbPassword` | Password to use for PostgreSQL authentication | `"changeme"`
@@ -95,7 +93,7 @@ Parameter | Description | Default
 `taiga.emailSmtpUser` | SMTP username | `""`
 `taiga.emailSmtpPassword` | SMTP password  | `""`
 `taiga.secretKey` | taiga backend's secret key | `""`, which defaults to a 10 character random string
-`persistence.deployPostgres` | Deploy a PostgreSQL instance, along with taiga; configure with the `postgresql` parameter. **IMPORTANT**: see note on the `taiga.dbHost` parameter. | `true`
+`persistence.deployPostgres` | Deploy a PostgreSQL instance, which you can configure with the `postgresql` parameter. If this is set to false, you must also configure `taiga.dbHost`. | `true`
 `persistence.enabled` | Create a PVC for persistent storage of the taiga media directory. | `true`
 `persistence.size` | Size of the volume requested by the PVC. | `8Gi`
 `persistence.accessMode` | Access mode for the volume requested by the PVC. | `ReadWriteOnce`
@@ -156,7 +154,6 @@ ingress:
 taiga:
   apiserver: taiga.mycompany.com
   behindTlsProxy: true
-  dbHost: my-taiga-postgresql
   dbName: taiga
   dbUser: taiga
   dbPassword: verySecureDatabasePassword
@@ -188,7 +185,6 @@ postgresql:
 Save the above in the `values.yaml` file, and then deploy your taiga instance on the cluster by executing the following:
 
 ```console
-### Note: release name is relevant, and must be consistent with the `taiga.dbHost` parameter when provisioning the PostgreSQL database.
 $ helm install my-taiga ./helm-taiga --dependency-update -f values.yaml
 ```
 
