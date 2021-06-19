@@ -1,18 +1,24 @@
+---
 name: helm-taiga
-version: 0.2.2
-appVersion: "3.3.0-3-gd0ec0f9"
+version: 0.2.4
+appVersion: "4.2.14"
 description: Helm chart for the taiga project management platform
 keywords:
 - taiga
 - project management
 - scrum
 - kanban
+dependencies:
+- name: postgresql
+  version: ~10.2.1
+  repository: https://charts.bitnami.com/bitnami
+  condition: persistence.deployPostgres
 home: https://taiga.io
-icon: https://taiga.io/v-43b64963b3/images/logo-color.png
 sources:
 - https://github.com/mvitale1989/docker-taiga
 maintainers:
 - name: mvitale1989
   email: mvitale1989@hotmail.com
-apiVersion: v1
+apiVersion: v2
+type: application
 kubeVersion: ">=1.10.0-0"
