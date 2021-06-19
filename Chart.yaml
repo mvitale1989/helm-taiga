@@ -15,4 +15,4 @@ maintainers:
 - name: mvitale1989
   email: mvitale1989@hotmail.com
 apiVersion: v1
-kubeVersion: ">=1.10.0"
+kubeVersion: ">=1.10.0-0"
