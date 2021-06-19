@@ -11,6 +11,7 @@ Be sure to have a working [Helm](https://helm.sh) installation with cluster conn
 
 ```console
 $ helm repo add mvitale1989-helm-taiga https://mvitale1989.github.io/helm-taiga
+$ helm repo update
 $ helm install taiga mvitale1989-helm-taiga/helm-taiga --set persistence.enabled=false --set postgresql.persistence.enabled=false
 ```
 
@@ -43,6 +44,7 @@ To install the chart with the release name `my-taiga`:
 
 ```console
 $ helm repo add mvitale1989-helm-taiga https://mvitale1989.github.io/helm-taiga
+$ helm repo update
 $ helm install my-taiga mvitale1989-helm-taiga/helm-taiga
 ```
 
