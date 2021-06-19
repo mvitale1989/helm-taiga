@@ -5,14 +5,13 @@
 This chart is a community effort, and is not endorsed by the taiga project developers.
 
 
-### TL;DR;
+### TL;DR
 
 Be sure to have a working [Helm](https://helm.sh) installation with cluster connectivity first.
 
 ```console
-$ git clone https://github.com/mvitale1989/helm-taiga
-$ helm repo add bitnami https://charts.bitnami.com/bitnami
-$ helm install taiga ./helm-taiga --dependency-update --set persistence.enabled=false --set postgresql.persistence.enabled=false
+$ helm repo add mvitale1989-helm-taiga https://mvitale1989.github.io/helm-taiga
+$ helm install taiga mvitale1989-helm-taiga/helm-taiga --set persistence.enabled=false --set postgresql.persistence.enabled=false
 ```
 
 Wait for the taiga and database pods to come up, then execute:
@@ -43,9 +42,8 @@ Check out the [official taiga website](https://taiga.io/) for informations on ho
 To install the chart with the release name `my-taiga`:
 
 ```console
-$ git clone https://github.com/mvitale1989/helm-taiga
-$ repo add bitnami https://charts.bitnami.com/bitnami
-$ helm install my-taiga ./helm-taiga --dependency-update
+$ helm repo add mvitale1989-helm-taiga https://mvitale1989.github.io/helm-taiga
+$ helm install my-taiga mvitale1989-helm-taiga/helm-taiga
 ```
 
 To uninstall/delete the `my-taiga` release:
@@ -185,7 +183,7 @@ postgresql:
 Save the above in the `values.yaml` file, and then deploy your taiga instance on the cluster by executing the following:
 
 ```console
-$ helm install my-taiga ./helm-taiga --dependency-update -f values.yaml
+$ helm install my-taiga mvitale1989-helm-taiga/helm-taiga -f values.yaml
 ```
 
 After everything's been initialized, you will be able to access your taiga instance at `https://taiga.mycompany.com`.
