@@ -3,7 +3,34 @@ entries:
   helm-taiga:
   - apiVersion: v2
     appVersion: 4.2.14
-    created: "2021-06-19T23:37:01.616240237+02:00"
+    created: "2022-06-20T00:11:37.993399595+02:00"
+    dependencies:
+    - condition: persistence.deployPostgres
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: ~10.16.2
+    description: Helm chart for the taiga project management platform
+    digest: 30a16eab40fb449d09dca39ef8c740fb2b7f3b8c2fb13400a1deafeca786d811
+    home: https://taiga.io
+    keywords:
+    - taiga
+    - project management
+    - scrum
+    - kanban
+    kubeVersion: '>=1.10.0-0'
+    maintainers:
+    - email: mvitale1989@hotmail.com
+      name: mvitale1989
+    name: helm-taiga
+    sources:
+    - https://github.com/mvitale1989/docker-taiga
+    type: application
+    urls:
+    - https://github.com/mvitale1989/helm-taiga/releases/download/0.2.5/helm-taiga-0.2.5.tgz
+    version: 0.2.5
+  - apiVersion: v2
+    appVersion: 4.2.14
+    created: "2022-06-20T00:11:37.988591851+02:00"
     dependencies:
     - condition: persistence.deployPostgres
       name: postgresql
@@ -28,4 +55,4 @@ entries:
     urls:
     - https://github.com/mvitale1989/helm-taiga/releases/download/0.2.4/helm-taiga-0.2.4.tgz
     version: 0.2.4
-generated: "2021-06-19T23:37:01.611303713+02:00"
+generated: "2022-06-20T00:11:37.979605928+02:00"
