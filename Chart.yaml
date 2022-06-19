@@ -10,7 +10,7 @@ keywords:
 - kanban
 dependencies:
 - name: postgresql
-  version: ~10.2.1
+  version: ~10.16.3
   repository: https://charts.bitnami.com/bitnami
   condition: persistence.deployPostgres
 home: https://taiga.io

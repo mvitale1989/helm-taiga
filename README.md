@@ -71,6 +71,7 @@ Parameter | Description | Default
 `service.type` | Service type for the taiga service. | `ClusterIP`
 `service.port` | Service port for the taiga service. | `80`
 `ingress.enabled` | Whether to enable the ingress resource for the taiga service, or not. | `false`
+`ingress.ingressClassName` | The name of the ingressClass to use to expose taiga. Is ignored if you're running kubernetes <1.18. | ``
 `ingress.annotations` | Annotations for the ingress resource, if enabled. Useful e.g. for configuring automatic certificate provisioning. | `{}`
 `ingress.hosts` | List of hostnames which will expose this taiga service. | `[ "chart-example.local" ]`
 `ingress.tls` | TLS configuration for the ingress object | `[]`
